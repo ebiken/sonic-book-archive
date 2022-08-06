@@ -8,7 +8,7 @@ SONiC Book ... a place to store SONiC information
 >   - ネットワークの基本知識は記述しない
 
 ## 目次
-
+ 
 第1部 SONiC概要
 
 - SONiCの歴史や背景
@@ -17,7 +17,7 @@ SONiC Book ... a place to store SONiC information
 第2部 デザイン：アーキテクチャ、各モジュールの役割、SAI、ターゲット
 
 - [SONiCを学ぶための前提知識](prerequisites.md)
-- 全体アーキテクチャ
+- 全体アーキテクチ
 - 各モジュールの役割（概要）
 - 機能毎に利用されるモジュールと連携フロー
 - [SAI Objects & Dataplane Pipeline]()
