@@ -16,7 +16,7 @@ SONiC Book ... a place to store SONiC information
 
 第2部 デザイン：アーキテクチャ、各モジュールの役割、SAI、ターゲット
 
-- [SONiCを学ぶための前提知識](prerequisites.md)
+- [SONiCを学ぶための前提知識](doc/prerequisites.md)
 - 全体アーキテクチ
 - 各モジュールの役割（概要）
 - 機能毎に利用されるモジュールと連携フロー
