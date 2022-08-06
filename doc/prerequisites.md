@@ -173,10 +173,10 @@ SONiCの各機能は Docker コンテナとしてパッケージされ動作し�
 
 ## Linux Kernel Networking
 
-SONiCでは様々な用途でベースOSである Linux Kernel のネットワーク機能を利用しています。
+SONiCでは様々な用途でホストOSである Linux Kernel のネットワーク機能を利用しています。
 
 - スイッチのポートに対応した仮想デバイスの作成
-  - 管理ポートとの区別を明確にするため Front-Pannel Interface とも呼ばれる
+  - 管理ポートとの区別を明確にするため Front-Pannel Interface （フロントパネルインターフェース）とも呼ばれる
 - 仮想デバイスを通じた、自ノード宛てパケットや管理パケットの送受信
   - FRR等、ルーティングデーモンもこの機構を通じプロトコルパケットを送受信している
 - 隣接ノードの解決（ARPやNeighbor Discovery）

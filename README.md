@@ -8,7 +8,11 @@ SONiC Book ... a place to store SONiC information
 >   - ネットワークの基本知識は記述しない
 
 ## 目次
- 
+
+第0部
+
+- [SONiC用語集](doc/terminology.md)
+
 第1部 SONiC概要
 
 - SONiCの歴史や背景
@@ -17,10 +21,10 @@ SONiC Book ... a place to store SONiC information
 第2部 デザイン：アーキテクチャ、各モジュールの役割、SAI、ターゲット
 
 - [SONiCを学ぶための前提知識](doc/prerequisites.md)
-- 全体アーキテクチ
-- 各モジュールの役割（概要）
-- 機能毎に利用されるモジュールと連携フロー
-- [SAI Objects & Dataplane Pipeline]()
+- [SONiCアーキテクチャ](doc/sonic-architecture.md)
+- [各サブシステムやモジュールの役割](doc/sonic-subsystem.md)
+- [機能毎のモジュール連携方法やデータの流れ](doc/subsystem-interaction.md)
+- [SAI Objects & Dataplane Pipeline](doc/)
 
 第3部 動かしてみる：ビルド、インストール、設定方法
 
@@ -28,7 +32,7 @@ SONiC Book ... a place to store SONiC information
 - ビルド方法（全体ビルド、コンテナのビルドや入替）
 - 設定（サンプル）
   - L2/L3基本動作（VLAN + L3 Routing）
-  - [SRv6 (APPL_DB直接設定)]()
+  - [SRv6 (APPL_DB直接設定)](doc/)
 
 第4部 Deep Dive とカスタマイズ
 
@@ -36,13 +40,13 @@ SONiC Book ... a place to store SONiC information
 - 各種DBの解説（スキーマ、参照方法、書き込み方法）
 - モジュールや機能毎の詳細解説
   - CLI（Click）詳細
-  - [SRv6 Deep Dive]()
+  - [SRv6 Deep Dive](doc/)
 - Sonic Management Framework (REST, Klish)
 - データプレーンのカスタマイズ（Tofino：P4/PINS）
   - データプレーン指定方法と裏側の動作（barefoot syncd container）
   - PINSを利用した独自テーブルの追加方法
   - （Intel switch.p4 の改造などはNDA範囲で記載不可？）
-- [DEBUG方法（常時UPDATE）]()
+- [DEBUG方法（常時UPDATE）](doc/)
 
 参考文献
 
