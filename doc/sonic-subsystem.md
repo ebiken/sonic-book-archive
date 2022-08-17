@@ -1,10 +1,16 @@
 # 各サブシステムやモジュールの役割
 
-> TODO: 各モジュールの役割を、「どのようなデータをどこから受信し、どのように変換しどこに送信（格納）するか」という視点で整理する。
+> TODO: 各モジュールの役割を以下ポイントに絞って整理する
+> - 各モジュールがどんな役割を持つか？
+> - モジュールに含まれる、サブモジュールの一覧とその役割、関わりかた（スキーマ定義ファイルや文書の場所）
+> - 視点：どのようなデータをどこから受信し、どのように変換しどこに送信（格納）するか？
+> 
+> ここに記載しない内容 -> "第4部 Deep Dive とカスタマイズ" に記載する
+> - ソースコードまでは踏み込んだ動作内容
+> - スキーマの中身
 
 SONiCのサブシステム（コンテナ）及びモジュール（コンテナ内で動作するプログラム）について整理します。
 なお、CLI / sonic-cfggen はコンテナではなくホストOS上で動作しますが、サブシステムのひとつとして取り上げます。
-
 
 - [SONiCモジュール早見表（Google Sheet）](https://docs.google.com/spreadsheets/d/1y6wvmaf2lNlvuFa4NUT0QDLK0qFjpBQqxqKOEBCPkA4/)
   - [sonic-buildimage /dockers](https://github.com/sonic-net/sonic-buildimage/tree/master/dockers) のうち主要なものだけを記載。順次必要なコンテナを追加する）
@@ -14,8 +20,9 @@ SONiCのサブシステム（コンテナ）及びモジュール（コンテナ
 - [CLI / sonic-cfggen](#cli--sonic-cfggen)
 - [database](#database)
   - [redis-server](#redis-server)
-- [syncd](#syncd)
-  - [syncd](#syncd-1)
+- [sairedis (syncd)](#sairedis-syncd)
+  - [sairedis](#sairedis)
+  - [syncd](#syncd)
 - [swss (Switch State Service)](#swss-switch-state-service)
   - [orchagent](#orchagent)
   - [portsyncd](#portsyncd)
@@ -31,10 +38,9 @@ SONiCのサブシステム（コンテナ）及びモジュール（コンテナ
   - [nbrmgrd](#nbrmgrd)
   - [vxlanmgrd](#vxlanmgrd)
   - [tunnelmgrd](#tunnelmgrd)
-- [teamd](#teamd)
-  - [teammgrd](#teammgrd)
-  - [tlm_teamd](#tlm_teamd)
-  - [teamsyncd](#teamsyncd)
+- [teammgrd](#teammgrd)
+- [tlm_teamd](#tlm_teamd)
+- [teamsyncd](#teamsyncd)
 - [snmp](#snmp)
   - [snmpd](#snmpd)
   - [snmp-subagent (sonic_ax_impl)](#snmp-subagent-sonic_ax_impl)
@@ -62,6 +68,8 @@ SONiCのサブシステム（コンテナ）及びモジュール（コンテナ
 
 
 ## 起動するサブシステム（コンテナ）とモジュールの確認方法
+
+> TODO：サブモジュールも含めたアーキテクチャ図 ⇒ 各モジュール間の詳細なやり取りはここではなく [機能毎のモジュール連携方法やデータの流れ](doc/subsystem-interaction.md) に記載
 
 SONiCで起動しているサブシステム（コンテナ）やモジュール（プロセス・デーモン）を確認するには、SONiC 上で `docker ps` や `docker exec -it <container_name> ps a` 等のコマンドを実行する事で確認できます。
 しかし、起動するサブシステムはビルド設定や起動時の設定に依存するため、上記コマンドで確認できるもの以外も起動する可能性があります。
@@ -106,89 +114,63 @@ command=/usr/bin/env python3 -m sonic_ax_impl
 
 ### redis-server
 
-## syncd
+## sairedis (syncd)
+
+アーキテクチャ上は別物だが、実装としては sairedis と syncd は同じレポジトリに存在している。
+
+- https://github.com/sonic-net/sonic-sairedis
+
+
+### sairedis
 
 ### syncd
 
 ## swss (Switch State Service)
 
-Switch State Service の略である `swss container` は `database container` と共に SONiC システムの中核に位置し、各サブシステムやコンポーネント間を仲介する役割を担う、多くのモジュールから構成されます。
-
-`swss container` に含まれる各モジュール一覧
-
-- orchagent
-- portsyncd
-- neighsyncd
-- fdbsyncd
-- gearsyncd
-- coppmgrd
-- vlanmgrd
-- intfmgrd
-- portmgrd
-- buffermgrd
-- vrfmgrd
-- nbrmgrd
-- vxlanmgrd
-- tunnelmgrd
+詳細はこちら：第4部 Deep Dive とカスタマイズ ⇒ モジュール毎の詳細解説
+- [Deep Dive: SwSS](sonic-deepdive-swss-orchagent.md)
+- [Deep Dive: SwSS: orchagent](sonic-deepdive-swss-orchagent.md)
 
 ### orchagent
-
-https://github.com/sonic-net/sonic-swss/tree/master/orchagent
-
-ポイント
-
-- `/orchagent/main.cpp` が `/usr/bin/orchagent` として実行される。
-- `orchDaemon` がデーモンとしての処理実装
-- 以下３つのDBと接続する
-  - DBConnector appl_db("APPL_DB", 0);
-  - DBConnector config_db("CONFIG_DB", 0);
-  - DBConnector state_db("STATE_DB", 0);
-- `/orchagent/` の下には様々な `*.cpp` プログラムがあるが、必ずしも orchagent の一部ではなく、コマンドとして実行可能なものもある（例： `routeresync.cpp`）
-- orchDaemon.h で `#include` されている `XXXorch.h` が実際の変換ロジックの実装
-  - `class Srv6Orch : public Orch` のように、`XxxOrch` クラスが各ファイルで定義され、`orchDaemon` で `gSrv6Orch = new Srv6Orch(m_applDb, srv6_tables, gSwitchOrch, vrf_orch, gNeighOrch);` のようにインスタンス化されている。
-  - `XxxOrch` のインスタンスは `orchdaemon.cpp: bool OrchDaemon::init()` で `m_orchList.push_back(gFdbOrch);` のように `m_orchList` に保存される。
-- `for (Orch *o : m_orchList) { o->doTask(); }` のように、各クラスの `doTask()` ループが実行される
-- 
-
-
-メモ
-
-- `routeresync.cpp`
-  - `routersync start|stop` を実行すると `APPL_DB` に `ROUTE_TABLE:resync` エントリを追加・削除する。
-
 ### portsyncd
-
 ### neighsyncd
-
 ### fdbsyncd
-
 ### gearsyncd
 
 ### coppmgrd
 
+- 接続DB&TABLE：
+  - `DBConnector cfgDb("CONFIG_DB", 0);`
+    - CFG_COPP_TRAP_TABLE_NAME
+    - CFG_COPP_GROUP_TABLE_NAME
+    - CFG_FEATURE_TABLE_NAME
+  - `DBConnector appDb("APPL_DB", 0);`
+    - APP_COPP_TABLE_NAME
+  - `DBConnector stateDb("STATE_DB", 0);`
+    - STATE_COPP_TRAP_TABLE_NAME
+    - STATE_COPP_GROUP_TABLE_NAME
+- Source Code：[sonic-swss: /cfgmgr/](https://github.com/sonic-net/sonic-swss/tree/master/cfgmgr)
+  - `coppmgr.cpp`
+  - `coppmgrd.cpp`
+  - `coppmgr.h`
+
+起動時に `/etc/sonic/copp_cfg.json` にある設定を投入。
+以後は `coppmgr.doTask()` をループし、TABLE から受信する Notice に応じて動作。
+
 ### vlanmgrd
-
 ### intfmgrd
-
 ### portmgrd
-
 ### buffermgrd
-
 ### vrfmgrd
-
 ### nbrmgrd
-
 ### vxlanmgrd
-
 ### tunnelmgrd
 
-## teamd
 
-### teammgrd
-
-### tlm_teamd
-
-### teamsyncd
+# teamd
+## teammgrd
+## tlm_teamd
+## teamsyncd
 
 ## snmp
 ### snmpd
