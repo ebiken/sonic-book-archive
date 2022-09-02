@@ -51,8 +51,16 @@ SONiC Book ... a place to store SONiC information
   - データプレーン指定方法と裏側の動作（barefoot syncd container）
   - PINSを利用した独自テーブルの追加方法
   - （Intel switch.p4 の改造などはNDA範囲で記載不可？）
-- [DEBUG方法（常時UPDATE）](doc/)
+- DEBUG方法やTIPS（常時UPDATE）
+  - [Tips: Debug](doc/tips-debug.md) ... デバッグTIPSのとりあえずメモ
+  - [Redis Database](doc/sonic-redisdb.md)
 
-参考文献
+## 参考文献
+
+SONiC関連
 
 - TBD
+
+SONiC以外
+
+- 分かりやすい Tutorial の例：[Writing a container in Rust](https://litchipi.github.io/series/container_in_rust)

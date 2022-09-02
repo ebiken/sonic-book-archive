@@ -113,7 +113,7 @@ SAIのメジャーバージョンは現状6ヶ月毎にリリースされ、3ヶ
 
 ## Redis DB
 
-- https://redis.io/
+> sonic-db-cli の出力例など、詳細は [EBUG方法やTIPS > RedisDB](sonic-redisdb.md) を参照
 
 SONiCで扱う各種オブジェクト（設定や状態）の多くは Redis DBに格納されています。
 詳細は [全体アーキテクチ](sonic-architecture.md) で解説しますが、SONiCは "各種 Redis DB に格納されたオブジェクトを、機能毎の Agent が変換＆読み書きする事により動作するシステム" と言っても過言ではありません。
