@@ -12,6 +12,7 @@
   - [syncd container](#syncd-container)
   - [bgp container](#bgp-container)
 - [フロントパネルインターフェースと仮想インターフェース](#フロントパネルインターフェースと仮想インターフェース)
+- [TODO：各コンテナのネットワーク](#todo各コンテナのネットワーク)
 
 
 ## アーキテクチャの全体像
@@ -187,3 +188,9 @@ admin@sonic:~$ ip a | grep Ethernet
 80: Ethernet12: <NO-CARRIER,BROADCAST,UP> mtu 9100 qdisc pfifo_fast master Bridge state DOWN group default qlen 1000
 ...
 ```
+
+## TODO：各コンテナのネットワーク
+
+> 以下、確認して解説する
+> - 各コンテナはホストと同じネットワークを共有している ⇒ コンテナの起動コマンドなどから解説
+> - Port や Interface を Listen したい時はホスト上のアプリと同様に OPEN すればよい

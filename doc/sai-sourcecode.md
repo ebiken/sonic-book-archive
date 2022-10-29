@@ -7,9 +7,20 @@
 https://github.com/opencomputeproject/SAI の [SAI: /inc](https://github.com/opencomputeproject/SAI/tree/master/inc) にヘッダファイルが存在する。
 実質これがSAIの定義（スペック）となっている。
 
+TODO: SAI Objects は ER図 を使って図示する？
+TODO: SAI API はモジュールに分かれている -> `sai.h: _sai_api_t`
+TODO: モジュール毎の定義（具体例で）
+TODO: ココか別のところで、SAI が CRUD API である事の説明 ⇒ sairedis QUAD API との関係の解説
+TODO: SAI Object と ObjectID について
+TODO: Orchagent や Syncd の VIDCOUNTER、VirtualID(VID), SAI ODI == Real Object ID(RID)の関係について。例えば Interface (INTF)など。VID/RIDのマッピングはSyncdでやっている。なお、チップによって挙動が異なる可能性があるので注意（例：Object毎にVID/RIDマッピングが必要ないチップもある？）
+TODO: SAI エラーコードとオフセットについて。下位の数値でどのAttrが問題なのか示している。
+TODO: SAIの初期化～終了まで。SAISWITCH Objectとは何か？（PTFやsai-sanityなど小さなテストプログラムと合わせて解説すると分かりやすい？）
+TODO: （別ファイル？）SAIテスト方法：PTF、sai-sanity、など https://github.com/oopt-goldstone/goldstone-buildimage/tree/master/packages/base/any/sai-sanity
 
 
-## SONiC 実装
+## SONiC 実装 (TODO: sairedis, orchagentの構成、等、具体的なタイトルに変更)
+
+TODO: sairedis (orchagent->ASIC_DB), syncd に章立てを分けて解説
 
 ```
 sonic-swss/orchagent$ grep -r create_my_sid_entry

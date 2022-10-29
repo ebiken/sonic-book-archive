@@ -41,12 +41,12 @@ SONiC Book ... a place to store SONiC information
 - [SAIソースコードの場所と呼び出しフロー](doc/sai-sourcecode.md)
 - 機能毎の詳細解説
   - CLI（Click）詳細
-  - TODO#4 [SRv6 Deep Dive](doc/)
+  - TODO#4 [Deep Dive: SRv6](doc/sonic-deepdive-srv6.md)
 - モジュール毎の詳細解説（起動シーケンスやソースコード）
   - TODO#3 [Deep Dive: SwSS](doc/sonic-deepdive-swss-orchagent.md)
   - TODO#3 [Deep Dive: SwSS: orchagent](doc/sonic-deepdive-swss-orchagent.md)
-  - TODO#3 [DeepDive: sairedis & syncd](doc/sonic-deepdive-sairedis.md)
-  - Sonic Management Framework (REST, Klish)
+  - TODO#3 [Deep Dive: sairedis & syncd](doc/sonic-deepdive-sairedis.md)
+  - TODO#3 [Sonic Management Framework: CLI(Klish), REST, gNMI](doc/sonic-management-framework.md)
 - データプレーンのカスタマイズ（Tofino：P4/PINS）
   - データプレーン指定方法と裏側の動作（barefoot syncd container）
   - PINSを利用した独自テーブルの追加方法
