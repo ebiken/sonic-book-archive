@@ -8,7 +8,7 @@ Redis DB (redisdb) 周辺でデバッグ等をする際に必要な情報を記�
 - [エントリのフォーマット](#エントリのフォーマット)
   - [ASIC_TEMPERATURE_INFO_TABLE_NAME](#asic_temperature_info_table_name)
 - [redisdb への読み書き](#redisdb-への読み書き)
-  - [TODO: swssconfig を利用した書き込み -> これは成功していない？要調査](#todo-swssconfig-を利用した書き込み---これは成功していない要調査)
+  - [APPL_DB への書き込み：swssconfig](#appl_db-への書き込みswssconfig)
   - [TODO: redis-cli を利用した読み書き](#todo-redis-cli-を利用した読み書き)
   - [TODO: python を利用した読み書き](#todo-python-を利用した読み書き)
 - [出力サンプル](#出力サンプル)
@@ -109,20 +109,69 @@ SwitchOrch::SwitchOrch(DBConnector *db, vector<TableConnector>& connectors, Tabl
 
 ## redisdb への読み書き
 
-### TODO: swssconfig を利用した書き込み -> これは成功していない？要調査
+### APPL_DB への書き込み：swssconfig
+
+swss container 内で swssconfig コマンドを利用して、APPL_DB へ JSON で記述したエントリを投入する事が可能です。
+以下にSRv6設定をサンプルとして記載します。
+
+```
+> Enter swss container
+
+admin@sonic:~$ docker exec -it swss bash
+
+> Create files (Copy&Paste JSON sample)
+
+root@sonic:/# vi end-dt46.json
+root@sonic:/# vi encaps-red-3.json
+
+> Insert Entries using command: swssconfig
+
+root@sonic:/# swssconfig end-dt46.json
+root@sonic:/# swssconfig encaps-red-3.json
+```
+
+`docker cp` でファイルをコピーしてホスト上で実行する事も可能です。
 
 ```
 $ cat ~/srv6.json
-{
-    "SRV6_SID_LIST_TABLE" : {
-        "seg1" : [
-            "baba:2001:10::,baba:2001:20::"
-        ]
-    }
-}
-
 docker cp srv6.json swss:.
 docker exec -it swss swssconfig srv6.json
+```
+
+APPL_DB JSON サンプル
+
+- End.DT46 : end-dt46.json
+
+```json
+[
+  {
+    "SRV6_MY_SID_TABLE:32:32:16:0:2001:db8:ffff:1:14::": {
+      "action": "end.dt46", "vrf": "Vrf_srv6"
+    },
+    "OP": "SET"
+  }
+]
+
+```
+
+- H.Encaps.Red : encaps-red-3.json
+
+```json
+[
+  {
+    "SRV6_SID_LIST_TABLE:seg3": {
+      "path": "2001:db8::100,2001:db8::103"
+    },
+    "OP": "SET"
+  },
+  {
+    "ROUTE_TABLE:Vrf_srv6:10.3.0.0/24": {
+      "segment": "seg3",
+      "seg_src": "2001:db8:ffff::3"
+    },
+    "OP": "SET"
+  }
+]
 ```
 
 ### TODO: redis-cli を利用した読み書き
