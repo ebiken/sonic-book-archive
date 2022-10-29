@@ -47,6 +47,8 @@ SONiC Book ... a place to store SONiC information
   - TODO#3 [Deep Dive: SwSS: orchagent](doc/sonic-deepdive-swss-orchagent.md)
   - TODO#3 [Deep Dive: sairedis & syncd](doc/sonic-deepdive-sairedis.md)
   - TODO#3 [Sonic Management Framework: CLI(Klish), REST, gNMI](doc/sonic-management-framework.md)
+- 機能毎の解説（SAI Object や設定フローを含む）
+  - [SONiC: Next Hop Group, SAI Object and Flow](doc/sonic-nexthopgroup.md)
 - データプレーンのカスタマイズ（Tofino：P4/PINS）
   - データプレーン指定方法と裏側の動作（barefoot syncd container）
   - PINSを利用した独自テーブルの追加方法
