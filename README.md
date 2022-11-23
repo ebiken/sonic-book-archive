@@ -38,7 +38,9 @@ SONiC Book ... a place to store SONiC information
 
 - SONiCに関連したレポジトリと役割
 - 各種DBの解説（スキーマ、参照方法、書き込み方法）
-- [SAIソースコードの場所と呼び出しフロー](doc/sai-sourcecode.md)
+- SAI Deep Dive
+  - [SAIソースコードの場所と呼び出しフロー](doc/sai-sourcecode.md)
+  - [SAI Challenger](doc/sai-challenger.md)
 - 機能毎の詳細解説
   - CLI（Click）詳細
   - TODO#4 [Deep Dive: SRv6](doc/sonic-deepdive-srv6.md)

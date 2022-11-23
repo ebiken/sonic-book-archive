@@ -2,6 +2,8 @@
 
 - [SRv6 on SONiC 機能や動作環境](#srv6-on-sonic-機能や動作環境)
   - [仕様](#仕様)
+  - [Known Bugs](#known-bugs)
+    - [202205 Branch で H.Encaps.Red が動作しない](#202205-branch-で-hencapsred-が動作しない)
   - [制限事項](#制限事項)
   - [Tofino Profile 変更方法](#tofino-profile-変更方法)
 - [SRv6 APPL_DB Entry 設定例](#srv6-appl_db-entry-設定例)
@@ -11,6 +13,9 @@
   - [Config: H.Encaps.Red](#config-hencapsred)
   - [Config: End, End.DT46](#config-end-enddt46)
   - [パケット](#パケット)
+- [SAI Objects and Flow](#sai-objects-and-flow)
+  - [H.Encaps.Red (SAI Objects andFlow)](#hencapsred-sai-objects-andflow)
+  - [End.DT46  (SAI Objects andFlow)](#enddt46--sai-objects-andflow)
 - [Logs](#logs)
 
 ## SRv6 on SONiC 機能や動作環境
@@ -29,6 +34,27 @@ SONiC/SAI における SRv6 は、2017年（SAI 1.2）実装されました。
 
 - [SONiC uSID (HLD)](https://github.com/sonic-net/SONiC/blob/master/doc/srv6/SRv6_uSID.md)
 
+### Known Bugs
+
+#### 202205 Branch で H.Encaps.Red が動作しない
+
+- 202205 Branch では H.Encaps.Red を設定した際に `SAI_NEXT_HOP_TYPE_SRV6_SIDLIST` を SET する際に `SAI_STATUS_INVALID_PARAMETER` となり設定できない。（Tofino ASIC の P4 Table に Entry が作成されない）
+- Master Branch ではエラー発生せず、ASIC Entry が作成される。
+- Tested Binary
+  - SONiC-OS-master.143513-dirty-20220903.195418
+  - SONiC-OS-202205.164638-dirty-20221024.204337
+
+```
+> admin@sonic:~$ tail -f /var/log/swss/swss.rec
+2022-10-31.01:59:09.745213|SRV6_SID_LIST_TABLE:seg3|SET|path:2001:db8::100,2001:db8::103
+2022-10-31.01:59:09.748184|ROUTE_TABLE:Vrf_srv6:10.3.0.0/24|SET|seg_src:2001:db8:ffff::3|segment:seg3
+
+> admin@sonic:~$ tail -f /var/log/swss/sairedis.rec
+2022-10-31.01:59:09.746063|c|SAI_OBJECT_TYPE_SRV6_SIDLIST:oid:0x3d000000000386|SAI_SRV6_SIDLIST_ATTR_SEGMENT_LIST=2:2001:db8::100,2001:db8::103|SAI_SRV6_SIDLIST_ATTR_TYPE=SAI_SRV6_SIDLIST_TYPE_ENCAPS_RED
+2022-10-31.01:59:09.748571|c|SAI_OBJECT_TYPE_TUNNEL:oid:0x2a000000000387|SAI_TUNNEL_ATTR_TYPE=SAI_TUNNEL_TYPE_SRV6|SAI_TUNNEL_ATTR_UNDERLAY_INTERFACE=oid:0x6000000000049|SAI_TUNNEL_ATTR_ENCAP_SRC_IP=2001:db8:ffff::3
+2022-10-31.01:59:09.755477|c|SAI_OBJECT_TYPE_NEXT_HOP:oid:0x4000000000388|SAI_NEXT_HOP_ATTR_TYPE=SAI_NEXT_HOP_TYPE_SRV6_SIDLIST|SAI_NEXT_HOP_ATTR_SRV6_SIDLIST_ID=oid:0x3d000000000386|SAI_NEXT_HOP_ATTR_TUNNEL_ID=oid:0x2a000000000387
+2022-10-31.01:59:09.758695|E|SAI_STATUS_INVALID_PARAMETER
+```
 
 ### 制限事項
 
@@ -250,6 +276,17 @@ Ethernet4    Vrf_srv6  10.0.4.1/24          up/up         N/A             N/A
 ### パケット
 
 TODO : `ebiken@dcig170:~/sandbox/p4sonic/pytools/sendpacket$`
+
+
+## SAI Objects and Flow
+
+### H.Encaps.Red (SAI Objects andFlow)
+
+TODO
+
+### End.DT46  (SAI Objects andFlow)
+
+TODO
 
 ## Logs
 
