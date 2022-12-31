@@ -5,6 +5,7 @@
 - [Next Hop Group in APPL\_DB: NEXT\_HOP\_GROUP\_TABLE](#next-hop-group-in-appl_db-next_hop_group_table)
   - [Add Next Hop Group to APPL\_DB](#add-next-hop-group-to-appl_db)
   - [Remove entry from APPL\_DB NEXTHOP\_GROUP\_TABLE](#remove-entry-from-appl_db-nexthop_group_table)
+  - [Add ROUTE entry with Next Hop Group](#add-route-entry-with-next-hop-group)
   - [memo](#memo)
 
 Next Hop Groups can be configured in two ways.
@@ -120,6 +121,95 @@ ASIC_STATE:SAI_OBJECT_TYPE_NEXT_HOP:oid:0x40000000003a5
 admin@sonic:~/script$ sudo sonic-installer list
 Current: SONiC-OS-master.143513-dirty-20220903.195418
 ```
+
+### Add ROUTE entry with Next Hop Group
+
+Python Script to add entry to APPL_DB NEXTHOP_GROUP_TABLE
+
+> prerequisit is you have already created entry in NEXT_HOP_GROUP_TABLE with key `nhg1`
+
+```
+admin@sonic:~/script$ cat nhg-route_push_appldb.py
+#!/usr/bin/python3
+from swsscommon import swsscommon
+
+db = swsscommon.DBConnector("APPL_DB", 0, True)
+
+pstable = swsscommon.ProducerStateTable(db, "ROUTE_TABLE")
+key = "10.88.0.0/24"
+fieldValues = {"nexthop_group": "nhg1"}
+fvs = swsscommon.FieldValuePairs(list(fieldValues.items()))
+pstable.set(key, fvs)
+
+admin@sonic:~/script$ ./nhg-route_push_appldb.py
+```
+
+Log: Console
+
+```
+admin@sonic:~/script$ sonic-db-cli APPL_DB HGETALL ROUTE_TABLE:10.88.0.0/24
+{'nexthop_group': 'nhg1'}
+
+admin@sonic:~/script$ sonic-db-cli APPL_DB keys \* | grep NEXT
+NEXTHOP_GROUP_TABLE:nhg1
+admin@sonic:~/script$ sonic-db-cli ASIC_DB keys \* | grep NEXT
+ASIC_STATE:SAI_OBJECT_TYPE_NEXT_HOP_GROUP:oid:0x50000000003a8
+ASIC_STATE:SAI_OBJECT_TYPE_NEXT_HOP:oid:0x40000000003a7
+ASIC_STATE:SAI_OBJECT_TYPE_NEXT_HOP_GROUP_MEMBER:oid:0x2d0000000003a9
+ASIC_STATE:SAI_OBJECT_TYPE_NEXT_HOP_GROUP_MEMBER:oid:0x2d0000000003aa
+ASIC_STATE:SAI_OBJECT_TYPE_NEXT_HOP:oid:0x40000000003a5
+```
+
+Add 2nd ROUTE entry
+
+```
+admin@sonic:~/script$ cat nhg-route99_push_appldb.py
+#!/usr/bin/python3
+from swsscommon import swsscommon
+
+db = swsscommon.DBConnector("APPL_DB", 0, True)
+
+pstable = swsscommon.ProducerStateTable(db, "ROUTE_TABLE")
+key = "10.99.0.0/24"
+fieldValues = {"nexthop_group": "nhg1"}
+fvs = swsscommon.FieldValuePairs(list(fieldValues.items()))
+pstable.set(key, fvs)
+
+admin@sonic:~/script$ ./nhg-route99_push_appldb.py
+```
+
+Log: Console
+
+```
+admin@sonic:~/script$ sonic-db-cli APPL_DB HGETALL ROUTE_TABLE:10.99.0.0/24
+{'nexthop_group': 'nhg1'}
+admin@sonic:~/script$ sonic-db-cli APPL_DB HGETALL ROUTE_TABLE:10.88.0.0/24
+{'nexthop_group': 'nhg1'}
+admin@sonic:~/script$ sonic-db-cli APPL_DB keys \* | grep NEXT
+NEXTHOP_GROUP_TABLE:nhg1
+admin@sonic:~/script$ sonic-db-cli APPL_DB HGETALL NEXTHOP_GROUP_TABLE:nhg1
+{'nexthop': '10.0.0.100,10.0.0.101', 'ifname': 'Ethernet0,Ethernet0'}
+
+admin@sonic:~/script$ sonic-db-cli ASIC_DB keys \* | grep ROUTE
+...snip...
+ASIC_STATE:SAI_OBJECT_TYPE_ROUTE_ENTRY:{"dest":"10.88.0.0/24","switch_id":"oid:0x21000000000000","vr":"oid:0x300000000004a"}
+ASIC_STATE:SAI_OBJECT_TYPE_ROUTE_ENTRY:{"dest":"10.99.0.0/24","switch_id":"oid:0x21000000000000","vr":"oid:0x300000000004a"}
+
+admin@sonic:~/script$ sonic-db-cli ASIC_DB HGETALL 'ASIC_STATE:SAI_OBJECT_TYPE_ROUTE_ENTRY:{"dest":"10.88.0.0/24","switch_id":"oid:
+0x21000000000000","vr":"oid:0x300000000004a"}'
+{'SAI_ROUTE_ENTRY_ATTR_NEXT_HOP_ID': 'oid:0x50000000003a8'}
+admin@sonic:~/script$ sonic-db-cli ASIC_DB HGETALL 'ASIC_STATE:SAI_OBJECT_TYPE_ROUTE_ENTRY:{"dest":"10.99.0.0/24","switch_id":"oid:
+0x21000000000000","vr":"oid:0x300000000004a"}'
+{'SAI_ROUTE_ENTRY_ATTR_NEXT_HOP_ID': 'oid:0x50000000003a8'}
+
+admin@sonic:~/script$ sonic-db-cli ASIC_DB keys \* | grep NEXT
+ASIC_STATE:SAI_OBJECT_TYPE_NEXT_HOP_GROUP:oid:0x50000000003a8
+ASIC_STATE:SAI_OBJECT_TYPE_NEXT_HOP:oid:0x40000000003a7
+ASIC_STATE:SAI_OBJECT_TYPE_NEXT_HOP_GROUP_MEMBER:oid:0x2d0000000003a9
+ASIC_STATE:SAI_OBJECT_TYPE_NEXT_HOP_GROUP_MEMBER:oid:0x2d0000000003aa
+ASIC_STATE:SAI_OBJECT_TYPE_NEXT_HOP:oid:0x40000000003a5
+```
+
 
 ### memo
 

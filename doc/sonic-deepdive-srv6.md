@@ -2,11 +2,12 @@
 
 - [SRv6 on SONiC 機能や動作環境](#srv6-on-sonic-機能や動作環境)
   - [仕様](#仕様)
+  - [SRv6 関連 HLD/PR](#srv6-関連-hldpr)
   - [Known Bugs](#known-bugs)
     - [202205 Branch で H.Encaps.Red が動作しない](#202205-branch-で-hencapsred-が動作しない)
   - [制限事項](#制限事項)
   - [Tofino Profile 変更方法](#tofino-profile-変更方法)
-- [SRv6 APPL_DB Entry 設定例](#srv6-appl_db-entry-設定例)
+- [SRv6 APPL\_DB Entry 設定例](#srv6-appl_db-entry-設定例)
   - [構成図](#構成図)
   - [サーバ設定](#サーバ設定)
   - [共通設定](#共通設定)
@@ -33,6 +34,32 @@ SONiC/SAI における SRv6 は、2017年（SAI 1.2）実装されました。
 なお、2022年末リリース予定の `SONiC.202211` では、uSID のサポートが予定されています。
 
 - [SONiC uSID (HLD)](https://github.com/sonic-net/SONiC/blob/master/doc/srv6/SRv6_uSID.md)
+
+### SRv6 関連 HLD/PR
+
+SONiC 及び SAI の関連HLD/PR
+
+- SONiC.201803 => no feature name, no HLD
+  - SAI IPv6 Segment Routing Proposal for SAI 1.2.0
+  - https://github.com/opencomputeproject/SAI/blob/master/doc/SAI-Proposal-IPv6_Segment_Routing-1.md
+- SONiC.202111 => SRv6 support (Cntd)
+  - SONiC HLD: https://github.com/sonic-net/SONiC/blob/master/doc/srv6/srv6_hld.md
+    - PR: Srv6 hld #795
+      - https://github.com/sonic-net/SONiC/pull/795
+      - END, END.DT46, H.Encaps.Red
+  - SAI IPv6 Segment Routing Update (SAI 1.9.1)
+    - https://github.com/opencomputeproject/SAI/blob/master/doc/SAI-IPv6-Segment-Routing-Update.md
+    - PR: Updates to SRv6 programming model and related objects/attributes #1231
+      - https://github.com/opencomputeproject/SAI/pull/1231
+    - PR: Added uSID related attributes which were accidentally deleted in last c… #1261
+      - https://github.com/opencomputeproject/SAI/pull/1261
+- SONiC.202211 => SRv6 uSID support in SONiC dataplane - uN, uA
+  - SONiC HLD: https://github.com/sonic-net/SONiC/blob/master/doc/srv6/SRv6_uSID.md
+    - PR: SRv6 uSID design for srv6orch #1034
+    - https://github.com/sonic-net/SONiC/pull/1034
+    - uSID actions: uN, uA, uDX and uDT
+  - SAI PR ... no update (uSID is part of SAI 1.9.1)
+  - 
 
 ### Known Bugs
 
