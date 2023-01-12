@@ -20,6 +20,12 @@ Check [ebiken/nsdevnotes](https://github.com/ebiken/nsdevnotes) for non SONiC in
 
 - SONiCの歴史や背景
 - 消えていったオープンソースNOSの記録（アーキテクチャ比較）
+- コミュニティ運営と開発プロセス
+  - 組織構成やメンバー（毎年変わる可能性があるので立ち上げメンバーの企業種別を中心に）
+  - コミュニケーションチャネル（Mailing List, GitHub Issue/PR）
+  - リリースプロセス
+    - [リリースプロセス解説メール 2023/01/09 Tips/Requirements on SONiC 202305 release](https://lists.sonicfoundation.dev/g/sonic-dev/message/107)
+  - 質問、不具合報告、修正
 
 ### 第2部 デザイン：アーキテクチャ、各モジュールの役割、SAI、ターゲット
 
