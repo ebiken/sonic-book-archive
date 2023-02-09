@@ -45,7 +45,7 @@ Check [ebiken/nsdevnotes](https://github.com/ebiken/nsdevnotes) for non SONiC in
   - clab を利用した複数台Fabricのサンプル手順＆スクリプト
 - Running SONiC on Fixed Function ASIC(TBD: running-sonic-asic.md) ⇒ 機材入手したら作成
 - Running SONiC on Tofino ASIC (TBD: running-sonic-tofino.md) ⇒ 公開できない (T^T)
-- [Getting pre-built image](doc/sonic-image-prebuilt.md)
+- [Getting pre-built image](doc/sonic-image-prebuild.md)
 - [ビルド方法： Building SONiC image from source code](doc/sonic-image.md)
 - [SONiC Build Image Memo](doc/sonic-buildimage-memo.md) ビルド関連情報のメモ集約
 
