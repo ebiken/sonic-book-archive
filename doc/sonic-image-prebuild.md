@@ -4,7 +4,16 @@
 
 ## Getting pre-built image
 
-https://sonic-build.azurewebsites.net/ui/sonic/pipelines
+イメージの場所
+
+- [GitHub: sonic-net/SONiC > Supported Platforms](https://github.com/sonic-net/SONiC/blob/sonic_image_md_update/supported_devices_platforms.md) からダウンロード可能
+  - イメージのバージョンは各プラットフォーム１つ（TODO：どのバージョンがリンクされているか要確認）
+  - mssonicbld というアカウントが毎日自動で更新している
+  - https://github.com/sonic-net/SONiC/compare/master...sonic_image_md_update
+- [SONiC Image Azure Pipelines](https://sonic-build.azurewebsites.net/ui/sonic/pipelines) が見やすいが記載されていないリリース（branch）もある。
+- [All Azure Pipelines](https://sonic-build.azurewebsites.net/ui/sonic/pipelines?buildType=all) はやや見にくいが、全てのリリース（branch）が列挙されている。
+
+Pipelinesから取得する手順
 
 - Find `Platform`, `BranchName` and click link on `Builds` (e.g. `vs`, `master`)
 - Find the build you want to use and click `Artifacts`
