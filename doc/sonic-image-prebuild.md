@@ -7,6 +7,7 @@
 イメージの場所
 
 - [GitHub: sonic-net/SONiC > Supported Platforms](https://github.com/sonic-net/SONiC/blob/sonic_image_md_update/supported_devices_platforms.md) からダウンロード可能
+  - 但し、仮想マシン環境で動作する sonic-vs は存在しないので、後述の Pipelines を利用する。
   - イメージのバージョンは各プラットフォーム１つ（TODO：どのバージョンがリンクされているか要確認）
   - mssonicbld というアカウントが毎日自動で更新している
   - https://github.com/sonic-net/SONiC/compare/master...sonic_image_md_update
