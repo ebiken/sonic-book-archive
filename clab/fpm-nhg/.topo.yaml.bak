@@ -1,0 +1,61 @@
+# ContainerLab Topology File - fpm-nhg
+# 5 nodes r1-[r2|r3|r4]-r5
+name: fpm-nhg
+topology:
+  kinds:
+    linux:
+      cmd: bash
+  nodes:
+    r1:
+      kind: linux
+      image: frrouting/frr:v8.2.2
+      binds:
+        - frr/r1.daemons:/etc/frr/daemons
+        - frr/r1.frr.conf:/etc/frr/frr.conf
+      exec:
+         - /usr/lib/frr/frrinit.sh start
+    r2:
+      kind: linux
+      image: frrouting/frr:v8.2.2
+      binds:
+        - frr/r2.daemons:/etc/frr/daemons
+        - frr/r2.frr.conf:/etc/frr/frr.conf
+      exec:
+        - /usr/lib/frr/frrinit.sh start
+    r3:
+      kind: linux
+      image: frrouting/frr:v8.2.2
+      binds:
+        - frr/r3.daemons:/etc/frr/daemons
+        - frr/r3.frr.conf:/etc/frr/frr.conf
+      exec:
+        - /usr/lib/frr/frrinit.sh start
+    r4:
+      kind: linux
+      image: frrouting/frr:v8.2.2
+      binds:
+        - frr/r4.daemons:/etc/frr/daemons
+        - frr/r4.frr.conf:/etc/frr/frr.conf
+      exec:
+        - /usr/lib/frr/frrinit.sh start
+    r5:
+      kind: linux
+      image: frrouting/frr:v8.2.2
+      binds:
+        - frr/r5.daemons:/etc/frr/daemons
+        - frr/r5.frr.conf:/etc/frr/frr.conf
+      exec:
+        - /usr/lib/frr/frrinit.sh start
+    logger:
+      kind: linux
+      image: yutarohayakawa/fpm-logger:latest
+      network-mode: container:r1
+      startup-delay: 3
+      cmd: "bash -c \"fpm-logger | ip monitor all file /dev/stdin\""
+  links:
+    - endpoints: ["r1:eth12", "r2:eth21"]
+    - endpoints: ["r1:eth13", "r3:eth31"]
+    - endpoints: ["r1:eth14", "r4:eth41"]
+    - endpoints: ["r5:eth52", "r2:eth25"]
+    - endpoints: ["r5:eth53", "r3:eth35"]
+    - endpoints: ["r5:eth54", "r4:eth45"]

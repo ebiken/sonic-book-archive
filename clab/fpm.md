@@ -1,24 +1,52 @@
 # Fpm monitoring using containerlab
 
 TODO:
-- assign address to routers
-- configure ECMP
-  - config same route to both router2/3
-- monitor fpm message on 
-- increase to 4 nodes
-  - router1 running fpm-logger connected to 3 routers2,3,4
+- Document to Zenn in Japanese with graph diagram
+  - simple multipath route add/del
+- Think more test procedure for NHG increase decrease.
+  - e.g. how to reduce members for a specific route?
 
-## lab with 4 nodes
+## lab for nhg testing
 
 Start / Stop commands:
 
 ```
-sudo clab deploy -c -t fpm-4nodes/topo.yaml
+cd fpm-nhg
 
-sudo clab destroy -t fpm-4nodes/topo.yaml
+sudo clab deploy -t topo.yaml
+
+sudo clab destroy -t topo.yaml
 ```
 
+add / del address to lo
 
+```
+docker exec -it clab-fpm-nhg-r5 ip addr add 10.99.0.0/32 dev lo
+docker exec -it clab-fpm-nhg-r5 ip addr add 10.99.0.1/32 dev lo
+docker exec -it clab-fpm-nhg-r5 ip addr add 10.99.0.2/32 dev lo
+
+docker exec -it clab-fpm-nhg-r5 ip addr del 10.99.0.0/32 dev lo
+docker exec -it clab-fpm-nhg-r5 ip addr del 10.99.0.1/32 dev lo
+docker exec -it clab-fpm-nhg-r5 ip addr del 10.99.0.2/32 dev lo
+```
+
+```
+[NEXTHOP]id 26 via 192.168.12.2 dev eth12 proto zebra
+[NEXTHOP]id 27 via 192.168.13.3 dev eth13 proto zebra
+[NEXTHOP]id 28 via 192.168.14.4 dev eth14 proto zebra
+[NEXTHOP]id 25 group 26/27/28 proto zebra
+[ROUTE]10.99.0.0 nhid 25 proto bgp metric 20
+
+[ROUTE]10.99.0.1 nhid 25 proto bgp metric 20
+
+[ROUTE]10.99.0.2 nhid 25 proto bgp metric 20
+
+[ROUTE]Deleted none 10.99.0.0 proto bgp metric 20
+
+[ROUTE]Deleted none 10.99.0.1 proto bgp metric 20
+
+[ROUTE]Deleted none 10.99.0.2 proto bgp metric 20
+```
 ## lab with 3 nodes
 
 ```

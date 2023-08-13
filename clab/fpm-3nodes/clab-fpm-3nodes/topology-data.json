@@ -1,0 +1,167 @@
+{
+  "name": "fpm-3nodes",
+  "type": "clab",
+  "clab": {
+    "config": {
+      "prefix": "clab",
+      "mgmt": {
+        "network": "clab",
+        "bridge": "br-12587f54d793",
+        "ipv4-subnet": "172.20.20.0/24",
+        "ipv4-gw": "172.20.20.1",
+        "ipv6-subnet": "2001:172:20:20::/64",
+        "ipv6-gw": "2001:172:20:20::1",
+        "mtu": "1500",
+        "external-access": true
+      }
+    }
+  },
+  "nodes": {
+    "fpm-logger": {
+      "index": "0",
+      "shortname": "fpm-logger",
+      "longname": "clab-fpm-3nodes-fpm-logger",
+      "fqdn": "fpm-logger.fpm-3nodes.io",
+      "group": "",
+      "labdir": "/home/ebiken/sandbox/sonic-book/clab/fpm-3nodes/clab-fpm-3nodes/fpm-logger",
+      "kind": "linux",
+      "image": "yutarohayakawa/fpm-logger:latest",
+      "mgmt-net": "",
+      "mgmt-intf": "",
+      "mgmt-ipv4-address": "",
+      "mgmt-ipv4-prefix-length": 0,
+      "mgmt-ipv6-address": "",
+      "mgmt-ipv6-prefix-length": 0,
+      "mac-address": "",
+      "labels": {
+        "clab-mgmt-net-bridge": "br-12587f54d793",
+        "clab-node-group": "",
+        "clab-node-kind": "linux",
+        "clab-node-lab-dir": "/home/ebiken/sandbox/sonic-book/clab/fpm-3nodes/clab-fpm-3nodes/fpm-logger",
+        "clab-node-name": "fpm-logger",
+        "clab-node-type": "",
+        "clab-topo-file": "/home/ebiken/sandbox/sonic-book/clab/fpm-3nodes/fpm-3nodes.yaml",
+        "containerlab": "fpm-3nodes"
+      },
+      "port-bindings": [
+      ]
+    },
+    "router1": {
+      "index": "1",
+      "shortname": "router1",
+      "longname": "clab-fpm-3nodes-router1",
+      "fqdn": "router1.fpm-3nodes.io",
+      "group": "",
+      "labdir": "/home/ebiken/sandbox/sonic-book/clab/fpm-3nodes/clab-fpm-3nodes/router1",
+      "kind": "linux",
+      "image": "frrouting/frr:latest",
+      "mgmt-net": "",
+      "mgmt-intf": "",
+      "mgmt-ipv4-address": "172.20.20.3",
+      "mgmt-ipv4-prefix-length": 24,
+      "mgmt-ipv6-address": "2001:172:20:20::3",
+      "mgmt-ipv6-prefix-length": 64,
+      "mac-address": "",
+      "labels": {
+        "clab-mgmt-net-bridge": "br-12587f54d793",
+        "clab-node-group": "",
+        "clab-node-kind": "linux",
+        "clab-node-lab-dir": "/home/ebiken/sandbox/sonic-book/clab/fpm-3nodes/clab-fpm-3nodes/router1",
+        "clab-node-name": "router1",
+        "clab-node-type": "",
+        "clab-topo-file": "/home/ebiken/sandbox/sonic-book/clab/fpm-3nodes/fpm-3nodes.yaml",
+        "containerlab": "fpm-3nodes"
+      },
+      "port-bindings": [
+      ]
+    },
+    "router2": {
+      "index": "2",
+      "shortname": "router2",
+      "longname": "clab-fpm-3nodes-router2",
+      "fqdn": "router2.fpm-3nodes.io",
+      "group": "",
+      "labdir": "/home/ebiken/sandbox/sonic-book/clab/fpm-3nodes/clab-fpm-3nodes/router2",
+      "kind": "linux",
+      "image": "frrouting/frr:latest",
+      "mgmt-net": "",
+      "mgmt-intf": "",
+      "mgmt-ipv4-address": "172.20.20.4",
+      "mgmt-ipv4-prefix-length": 24,
+      "mgmt-ipv6-address": "2001:172:20:20::4",
+      "mgmt-ipv6-prefix-length": 64,
+      "mac-address": "",
+      "labels": {
+        "clab-mgmt-net-bridge": "br-12587f54d793",
+        "clab-node-group": "",
+        "clab-node-kind": "linux",
+        "clab-node-lab-dir": "/home/ebiken/sandbox/sonic-book/clab/fpm-3nodes/clab-fpm-3nodes/router2",
+        "clab-node-name": "router2",
+        "clab-node-type": "",
+        "clab-topo-file": "/home/ebiken/sandbox/sonic-book/clab/fpm-3nodes/fpm-3nodes.yaml",
+        "containerlab": "fpm-3nodes"
+      },
+      "port-bindings": [
+      ]
+    },
+    "router3": {
+      "index": "3",
+      "shortname": "router3",
+      "longname": "clab-fpm-3nodes-router3",
+      "fqdn": "router3.fpm-3nodes.io",
+      "group": "",
+      "labdir": "/home/ebiken/sandbox/sonic-book/clab/fpm-3nodes/clab-fpm-3nodes/router3",
+      "kind": "linux",
+      "image": "frrouting/frr:latest",
+      "mgmt-net": "",
+      "mgmt-intf": "",
+      "mgmt-ipv4-address": "172.20.20.2",
+      "mgmt-ipv4-prefix-length": 24,
+      "mgmt-ipv6-address": "2001:172:20:20::2",
+      "mgmt-ipv6-prefix-length": 64,
+      "mac-address": "",
+      "labels": {
+        "clab-mgmt-net-bridge": "br-12587f54d793",
+        "clab-node-group": "",
+        "clab-node-kind": "linux",
+        "clab-node-lab-dir": "/home/ebiken/sandbox/sonic-book/clab/fpm-3nodes/clab-fpm-3nodes/router3",
+        "clab-node-name": "router3",
+        "clab-node-type": "",
+        "clab-topo-file": "/home/ebiken/sandbox/sonic-book/clab/fpm-3nodes/fpm-3nodes.yaml",
+        "containerlab": "fpm-3nodes"
+      },
+      "port-bindings": [
+      ]
+    }
+  },
+  "links": [
+    {
+      "a": {
+        "node": "router1",
+        "interface": "net0",
+        "mac": "aa:c1:ab:a9:16:81",
+        "peer": "z"
+      },
+      "z": {
+        "node": "router2",
+        "interface": "net0",
+        "mac": "aa:c1:ab:20:76:5b",
+        "peer": "a"
+      }
+    },
+    {
+      "a": {
+        "node": "router1",
+        "interface": "net1",
+        "mac": "aa:c1:ab:b3:8f:16",
+        "peer": "z"
+      },
+      "z": {
+        "node": "router3",
+        "interface": "net0",
+        "mac": "aa:c1:ab:bd:8c:65",
+        "peer": "a"
+      }
+    }
+  ]
+}

@@ -20,6 +20,7 @@ topology:
           -c '!'
           -c 'router bgp 65001'
           -c '  no bgp ebgp-requires-policy'
+          -c '  bgp bestpath as-path multipath-relax'
           -c '  bgp router-id 10.0.0.1'
           -c '  neighbor PEERS peer-group'
           -c '  neighbor PEERS remote-as external'
