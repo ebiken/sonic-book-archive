@@ -1,0 +1,45 @@
+# ContainerLab Topology File - fpm-4nodes
+name: fpm4
+topology:
+  kinds:
+    linux:
+      cmd: bash
+  nodes:
+    r1:
+      kind: linux
+      image: frrouting/frr:latest
+      binds:
+        - daemons:/etc/frr/daemons
+      exec:
+        - /usr/lib/frr/frrinit.sh start
+    r2:
+      kind: linux
+      image: frrouting/frr:latest
+      binds:
+        - daemons:/etc/frr/daemons
+      exec:
+        - /usr/lib/frr/frrinit.sh start
+    r3:
+      kind: linux
+      image: frrouting/frr:latest
+      binds:
+        - daemons:/etc/frr/daemons
+      exec:
+        - /usr/lib/frr/frrinit.sh start
+    r4:
+      kind: linux
+      image: frrouting/frr:latest
+      binds:
+        - daemons:/etc/frr/daemons
+      exec:
+        - /usr/lib/frr/frrinit.sh start
+    logger:
+      kind: linux
+      image: yutarohayakawa/fpm-logger:latest
+      network-mode: container:r1
+      startup-delay: 3
+      cmd: "bash -c \"fpm-logger | ip monitor all file /dev/stdin\""
+  links:
+    - endpoints: ["r1:eth12", "r2:eth21"]
+    - endpoints: ["r1:eth13", "r3:eth31"]
+    - endpoints: ["r1:eth14", "r2:eth41"]
