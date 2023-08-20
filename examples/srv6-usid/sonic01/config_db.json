@@ -1,0 +1,67 @@
+{
+    "DEVICE_METADATA": {
+        "localhost": {
+            "hwsku": "Force10-S6000",
+            "platform": "x86_64-kvm_x86_64-r0",
+            "mac": "52:54:00:74:c1:01",
+            "hostname": "sonic01",
+            "type": "LeafRouter",
+            "bgp_asn": "65001",
+            "docker_routing_config_mode": "split"
+        }
+    },
+    "LOOPBACK_INTERFACE": {
+        "Loopback0|10.0.0.1/32": {},
+        "Loopback0|fc00:0:1::1/128": {}
+    },
+
+    "INTERFACE": {
+        "Ethernet0": {
+            "ipv6_use_link_local_only": "enable"
+        },
+        "Ethernet4": {
+            "vrf_name": "Vrf1"
+        },
+        "Ethernet4|10.101.1.1/24": {},
+        "Ethernet4|2001:0:101:1::1/64": {},
+        "Ethernet8": {
+            "vrf_name": "Vrf2"
+        },
+        "Ethernet8|10.102.1.1/24": {},
+        "Ethernet8|2001:0:102:1::1/64": {}
+    },
+
+    "VRF": {
+        "Vrf1": {},
+        "Vrf2": {}
+    },
+    
+    "PORT": {
+        "Ethernet0": {
+            "lanes": "25,26,27,28",
+            "alias": "fortyGigE0/0",
+            "index": "0",
+            "speed": "40000",
+            "admin_status": "up",
+            "mtu": "9100"
+        },
+        "Ethernet4": {
+            "lanes": "29,30,31,32",
+            "alias": "fortyGigE0/4",
+            "index": "1",
+            "speed": "40000",
+            "admin_status": "up",
+            "mtu": "9100"
+        },
+        "Ethernet8": {
+            "lanes": "33,34,35,36",
+            "alias": "fortyGigE0/8",
+            "index": "2",
+            "speed": "40000",
+            "admin_status": "up",
+            "mtu": "9100"
+        }
+    }
+}
+
+
