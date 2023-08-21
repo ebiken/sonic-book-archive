@@ -278,48 +278,44 @@ Loopback0              fc00:0:3::1/128                         up/up         N/A
 ```
 
 
-### SONiC APPL_DB entries
-
-Get Keys
-
-```
-sonic-db-cli APPL_DB keys \* | grep SR
-
-admin@sonic01:~$ sonic-db-cli APPL_DB keys \* | grep SR
-SRV6_MY_SID_TABLE:32:16:16:0:fc00:0:1:6600::
-SRV6_MY_SID_TABLE:32:16:16:0:fc00:0:1:6500::
-SRV6_MY_SID_TABLE:32:16:16:0:fc00:0:1::
-```
-
-Show each entry
-
-```
-admin@sonic01:~$ sonic-db-cli APPL_DB HGETALL "SRV6_MY_SID_TABLE:32:16:16:0:fc00:0:1:6600::"
-{'action': 'udt46', 'vrf': 'Vrf2'}
-
-admin@sonic01:~$ sonic-db-cli APPL_DB HGETALL "SRV6_MY_SID_TABLE:32:16:16:0:fc00:0:1:6500::"
-{'action': 'udt46', 'vrf': 'Vrf1'}
-
-admin@sonic01:~$ sonic-db-cli APPL_DB HGETALL "SRV6_MY_SID_TABLE:32:16:16:0:fc00:0:1::"
-{'action': 'un'}
-```
-
-APPL_DB (one liner)
+### SONiC APPL_DB entries (SRV6_MY_SID_TABLE)
 
 ```
 admin@sonic01:~$ sonic-db-cli APPL_DB keys "SRV6*" | while read -r key; do echo $key; sonic-db-cli APPL_DB HGETALL $key; done
+
 SRV6_MY_SID_TABLE:32:16:16:0:fc00:0:1:6500::
 {'action': 'udt46', 'vrf': 'Vrf1'}
+
 SRV6_MY_SID_TABLE:32:16:16:0:fc00:0:1::
 {'action': 'un'}
+
 SRV6_SID_LIST_TABLE:fc00:0:2:6500::
 {'path': 'fc00:0:2:6500::'}
+
 SRV6_MY_SID_TABLE:32:16:16:0:fc00:0:1:6600::
 {'action': 'udt46', 'vrf': 'Vrf2'}
+
 SRV6_SID_LIST_TABLE:fc00:0:2:6600::
 {'path': 'fc00:0:2:6600::'}
+```
 
+### SONiC APPL_DB entries (ROUTE_TABLE)
 
+```
+admin@sonic01:~$ sonic-db-cli APPL_DB keys "ROUTE_TABLE:Vrf*" | while read -r key; do echo $key; sonic-db-cli APPL_DB HGETALL $key;
+ done
+
+ROUTE_TABLE:Vrf1:2001:0:101:2::/64
+{'segment': 'fc00:0:2:6500::', 'seg_src': 'fc00:0:1::1'}
+
+ROUTE_TABLE:Vrf1:10.101.2.0/24
+{'segment': 'fc00:0:2:6500::', 'seg_src': 'fc00:0:1::1'}
+
+ROUTE_TABLE:Vrf2:2001:0:102:2::/64
+{'segment': 'fc00:0:2:6600::', 'seg_src': 'fc00:0:1::1'}
+
+ROUTE_TABLE:Vrf2:10.102.2.0/24
+{'segment': 'fc00:0:2:6600::', 'seg_src': 'fc00:0:1::1'}
 ```
 
 ### Routing tables
