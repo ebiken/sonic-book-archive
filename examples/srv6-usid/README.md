@@ -52,6 +52,8 @@ Config of netns are as below.
 
 ### netns host
 
+apply this config **after** creating sonic-vs VM
+
 ```
 ip netns add s01
 
@@ -88,7 +90,6 @@ sudo cp sonic-srv6-vs-rev4.img sonic-srv6-vs-rev4.3.img
 
 $ sudo ls /var/lib/libvirt/images/
 sonic-srv6-vs-rev4.1.img  sonic-srv6-vs-rev4.2.img  sonic-srv6-vs-rev4.3.img
-
 ```
 
 FYI: Error message when using the same image for 2 VMs.
@@ -98,6 +99,20 @@ FYI: Error message when using the same image for 2 VMs.
 error: Failed to create domain from sonic01.xml
 error: internal error: process exited while connecting to monitor: 2023-08-18T09:07:41.585521Z qemu-system-x86_64: -drive file=/var/lib/libvirt/images/sonic-srv6-vs-rev4.img,format=qcow2,if=none,id=drive-virtio-disk0,cache=writeback: Failed to get "write" lock
 Is another process using the image?
+```
+
+Create bridge
+
+```
+sudo -s
+ip link add br01 type bridge
+ip link add br02 type bridge
+ip link add br03 type bridge
+ip link add br04 type bridge
+ip link set br01 up
+ip link set br02 up
+ip link set br03 up
+ip link set br04 up
 ```
 
 Start
@@ -120,8 +135,8 @@ $ virsh list
 Login via telnet console / ssh
 
 ```
-> first telnet and check eth0 address
-telnet localhost 7000
+> first telnet to port 7001,7002,7003 and check eth0 address
+telnet localhost 7001
 
 admin@sonic:~$ show ip int | grep eth0
 eth0                   192.168.122.98/24   up/up         N/A             N/A
