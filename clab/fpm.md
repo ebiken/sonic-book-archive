@@ -12,6 +12,7 @@
   - [IP Address Assignments](#ip-address-assignments)
   - [FRR BGP config for multipath](#frr-bgp-config-for-multipath)
   - [fpm netlink msg with NHG](#fpm-netlink-msg-with-nhg)
+- [Check how NHG is announced via FPM](#check-how-nhg-is-announced-via-fpm)
 
 ## Background:
 
@@ -233,4 +234,85 @@ You can find NHG `nhid 25` (a group of nh 26/27/28) is used for 2nd and 3rd rout
 [ROUTE]Deleted none 10.99.0.1 proto bgp metric 20
 
 [ROUTE]Deleted none 10.99.0.2 proto bgp metric 20
+```
+
+## Check how NHG is announced via FPM
+
+> - Host kernel version: 5.15.0-83-generic
+> - FRR version: frrouting/frr:v8.2.2
+
+Create topology
+
+```
+$ cd fpm-nhg
+$ sudo clab deploy -t topo.yaml
+```
+
+Monitor fpm-logger (connected to r1)
+
+```
+$ docker logs clab-fpm-nhg-logger -f
+```
+
+Connect to vtysh of r5 and add `router bgp 65005; network 10.99.0.0/32` config
+
+```
+$ docker exec -it clab-fpm-nhg-r5 vtysh
+
+r5# configure
+r5(config)# router bgp 65005
+r5(config-router)# network 10.99.0.0/32
+r5(config-router)# end
+```
+
+Add address to the `lo`` of r5 so it will be advertized to r1 via r2,r3,r4.
+
+```
+$ docker exec -it clab-fpm-nhg-r5 ip addr add 10.99.0.0/32 dev lo
+```
+
+r1 will receive route from r2,r3,r4, which will be ECMP route.
+
+fpm-logger will show the message to configure NH, NHG and ROUTE.
+
+```
+[NEXTHOP]id 26 via 192.168.12.2 dev eth12 proto zebra
+[NEXTHOP]id 27 via 192.168.13.3 dev eth13 proto zebra
+[NEXTHOP]id 28 via 192.168.14.4 dev eth14 proto zebra
+[NEXTHOP]id 25 group 26/27/28 proto zebra
+[ROUTE]10.99.0.0 nhid 25 proto bgp metric 20
+```
+
+FYI: Routing / NHG information on r1
+
+```
+r1# show ip route
+Codes: K - kernel route, C - connected, S - static, R - RIP,
+       O - OSPF, I - IS-IS, B - BGP, E - EIGRP, N - NHRP,
+       T - Table, v - VNC, V - VNC-Direct, A - Babel, F - PBR,
+       f - OpenFabric,
+       > - selected route, * - FIB route, q - queued, r - rejected, b - backup
+       t - trapped, o - offload failure
+
+K>* 0.0.0.0/0 [0/0] via 172.20.20.1, eth0, 00:16:38
+B>* 10.99.0.0/32 [20/0] via 192.168.12.2, eth12, weight 1, 00:04:31
+  *                     via 192.168.13.3, eth13, weight 1, 00:04:31
+  *                     via 192.168.14.4, eth14, weight 1, 00:04:31
+C>* 172.20.20.0/24 is directly connected, eth0, 00:16:38
+C>* 192.168.12.0/24 is directly connected, eth12, 00:16:38
+C>* 192.168.13.0/24 is directly connected, eth13, 00:16:38
+C>* 192.168.14.0/24 is directly connected, eth14, 00:16:38
+
+
+r1# show nexthop-group rib
+...snip...
+ID: 25 (zebra)
+     RefCnt: 1
+     Uptime: 00:05:03
+     VRF: default
+     Valid, Installed
+     Depends: (26) (27) (28)
+           via 192.168.12.2, eth12 (vrf default), weight 1
+           via 192.168.13.3, eth13 (vrf default), weight 1
+           via 192.168.14.4, eth14 (vrf default), weight 1
 ```
