@@ -8,7 +8,7 @@ topology:
   nodes:
     r1:
       kind: linux
-      image: frrouting/frr:v8.2.2
+      image: quay.io/frrouting/frr:8.5.1
       binds:
         - frr/r1.daemons:/etc/frr/daemons
         - frr/r1.frr.conf:/etc/frr/frr.conf
@@ -16,7 +16,7 @@ topology:
          - /usr/lib/frr/frrinit.sh start
     r2:
       kind: linux
-      image: frrouting/frr:v8.2.2
+      image: quay.io/frrouting/frr:8.5.1
       binds:
         - frr/r2.daemons:/etc/frr/daemons
         - frr/r2.frr.conf:/etc/frr/frr.conf
@@ -24,7 +24,7 @@ topology:
         - /usr/lib/frr/frrinit.sh start
     r3:
       kind: linux
-      image: frrouting/frr:v8.2.2
+      image: quay.io/frrouting/frr:8.5.1
       binds:
         - frr/r3.daemons:/etc/frr/daemons
         - frr/r3.frr.conf:/etc/frr/frr.conf
@@ -32,7 +32,7 @@ topology:
         - /usr/lib/frr/frrinit.sh start
     r4:
       kind: linux
-      image: frrouting/frr:v8.2.2
+      image: quay.io/frrouting/frr:8.5.1
       binds:
         - frr/r4.daemons:/etc/frr/daemons
         - frr/r4.frr.conf:/etc/frr/frr.conf
@@ -40,7 +40,7 @@ topology:
         - /usr/lib/frr/frrinit.sh start
     r5:
       kind: linux
-      image: frrouting/frr:v8.2.2
+      image: quay.io/frrouting/frr:8.5.1
       binds:
         - frr/r5.daemons:/etc/frr/daemons
         - frr/r5.frr.conf:/etc/frr/frr.conf
