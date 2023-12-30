@@ -49,6 +49,29 @@ Config of SONiC/FRR are defined in below files
 s01, s02 is netns emulating hosts or remote site.
 Config of netns are as below.
 
+### p2p link between 01-03-02 using UDP tunnel
+
+One can use UDP tunnel to create point to point link connecting sonic01/sonic03 and sonic03/sonic02.
+This way, you can avoid creating many veth pairs and make easier to read `ip a` command output.
+
+See below snippet from [kvm/sonic03.xml](kvm/sonic03.xml) as an example to create p2p link using UDP tunnel.
+
+```xml
+    <interface type='udp'>
+      <source address='127.0.0.1' port='10301'>
+        <local address='127.0.0.1' port='10103'/>
+      </source>
+      <model type='virtio'/>
+      <address type='pci' domain='0x0000' bus='0x00' slot='0x05' function='0x0'/>
+    </interface>
+    <interface type='udp'>
+      <source address='127.0.0.1' port='10302'>
+        <local address='127.0.0.1' port='10203'/>
+      </source>
+      <model type='virtio'/>
+      <address type='pci' domain='0x0000' bus='0x00' slot='0x07' function='0x0'/>
+    </interface>
+```
 
 ### netns host
 
